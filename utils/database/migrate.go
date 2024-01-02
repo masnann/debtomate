@@ -1,7 +1,7 @@
 package database
 
 import (
-	"debtomate/feature/entities"
+	"debtomate/module/entities"
 	"gorm.io/gorm"
 )
 

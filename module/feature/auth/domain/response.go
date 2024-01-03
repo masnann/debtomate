@@ -12,7 +12,7 @@ type LoginResponse struct {
 	AccessToken string       `json:"access_token"`
 }
 
-func LoginFormatter(user *entities.UserModels, accessToken string) LoginResponse {
+func LoginFormatter(user *entities.AdminModels, accessToken string) LoginResponse {
 	return LoginResponse{
 		User: UserResponse{
 			Name:  user.Name,

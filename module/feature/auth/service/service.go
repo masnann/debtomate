@@ -26,7 +26,7 @@ func NewAuthService(
 	}
 }
 
-func (s *AuthService) Login(email, password string) (*entities.UserModels, string, error) {
+func (s *AuthService) Login(email, password string) (*entities.AdminModels, string, error) {
 
 	user, err := s.repo.GetUsersByEmail(email)
 	if err != nil {
@@ -38,7 +38,7 @@ func (s *AuthService) Login(email, password string) (*entities.UserModels, strin
 		return nil, "", errors.New("wrong credential")
 	}
 
-	accessToken, err := s.jwt.GenerateJWT(user.ID, user.Email, user.Role)
+	accessToken, err := s.jwt.GenerateJWT(user.ID, user.Email)
 	if err != nil {
 		return nil, "", err
 	}

@@ -5,8 +5,6 @@ import (
 	"debtomate/module/feature/borrowers/handler"
 	"debtomate/module/feature/borrowers/repository"
 	"debtomate/module/feature/borrowers/service"
-	"debtomate/module/feature/middleware"
-	"debtomate/utils/token"
 	"github.com/gofiber/fiber/v2"
 	"gorm.io/gorm"
 )
@@ -23,7 +21,7 @@ func InitializeBorrowers(db *gorm.DB) {
 	borrowersHandler = handler.NewBorrowersHandler(borrowersService)
 }
 
-func SetupRoutesBorrowers(app *fiber.App, jwtService token.JWTInterface) {
+func SetupRoutesBorrowers(app *fiber.App) {
 	api := app.Group("/api/v1/borrowers")
-	api.Get("", middleware.Auth(jwtService), borrowersHandler.GetAllBorrowers)
+	api.Get("", borrowersHandler.GetAllBorrowers)
 }

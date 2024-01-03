@@ -4,7 +4,6 @@ import (
 	"debtomate/module/feature/middleware"
 	"debtomate/module/feature/route"
 	"debtomate/utils/database"
-	"debtomate/utils/token"
 	"debtomate/utils/viper"
 	"github.com/gofiber/fiber/v2"
 	"log"
@@ -27,9 +26,7 @@ func main() {
 	}
 	database.Migrate(db)
 
-	jwtService := token.NewJWT(viper.ViperConfig.GetStringValue("app.SECRET"))
-
-	route.SetupRoutes(app, db, jwtService)
+	route.SetupRoutes(app, db)
 
 	port := viper.ViperConfig.GetPort()
 

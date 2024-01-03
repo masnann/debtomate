@@ -1,23 +1,20 @@
 package main
 
 import (
-	"debtomate/module/feature/auth"
 	"debtomate/module/feature/middleware"
+	"debtomate/module/feature/route"
 	"debtomate/utils/database"
 	"debtomate/utils/viper"
 	"github.com/gofiber/fiber/v2"
-	"github.com/gofiber/fiber/v2/middleware/cors"
 	"log"
 	"strconv"
 )
 
 func main() {
 	app := fiber.New()
-	app.Use(cors.New(cors.Config{
-		AllowOrigins: "*",
-		AllowMethods: "GET,POST,PUT,DELETE",
-	}))
-	app.Use(middleware.ConfigureLogging())
+
+	middleware.SetupMiddlewares(app)
+
 	err := viper.ViperConfig.LoadConfig()
 	if err != nil {
 		log.Fatalf("Failed to load configuration: %s", err)
@@ -29,8 +26,7 @@ func main() {
 	}
 	database.Migrate(db)
 
-	auth.InitializeAuth(db)
-	auth.SetupRoutesAuth(app)
+	route.SetupRoutes(app, db)
 
 	port := viper.ViperConfig.GetPort()
 

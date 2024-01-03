@@ -16,16 +16,8 @@ func NewAuthRepository(db *gorm.DB) domain.AuthRepositoryInterface {
 	}
 }
 
-func (r *AuthRepository) Login(email string) (*entities.UserModels, error) {
-	var user entities.UserModels
-	if err := r.db.Where("email = ?", email).First(&user).Error; err != nil {
-		return nil, err
-	}
-	return &user, nil
-}
-
-func (r *AuthRepository) GetUsersByEmail(email string) (*entities.UserModels, error) {
-	var user entities.UserModels
+func (r *AuthRepository) GetUsersByEmail(email string) (*entities.AdminModels, error) {
+	var user entities.AdminModels
 	if err := r.db.Where("email = ?", email).First(&user).Error; err != nil {
 		return nil, err
 	}

@@ -3,25 +3,23 @@ package validator
 import (
 	"fmt"
 	"regexp"
+	"strings"
 
 	"github.com/go-playground/validator/v10"
 )
 
 var validate = validator.New()
 
-type LoginRequest struct {
-	Email    string `validate:"required,email"`
-	Password string `validate:"required,min=6"`
-}
+func ValidateStruct(s interface{}) error {
+	validate := validator.New()
 
-func ValidateLoginRequest(req *LoginRequest) error {
 	// Custom validation: password tidak boleh mengandung spasi
 	validate.RegisterValidation("noSpace", func(fl validator.FieldLevel) bool {
 		password := fl.Field().String()
 		return !regexp.MustCompile(`\s`).MatchString(password)
 	})
 
-	err := validate.Struct(req)
+	err := validate.Struct(s)
 	if err != nil {
 		var customErrors []string
 
@@ -40,7 +38,7 @@ func ValidateLoginRequest(req *LoginRequest) error {
 			}
 		}
 
-		return fmt.Errorf("Validation error: %s", customErrors)
+		return fmt.Errorf("Validation error: %s", strings.Join(customErrors, "; "))
 	}
 	return nil
 }

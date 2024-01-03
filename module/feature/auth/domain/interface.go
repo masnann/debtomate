@@ -6,12 +6,11 @@ import (
 )
 
 type AuthRepositoryInterface interface {
-	GetUsersByEmail(email string) (*entities.UserModels, error)
-	Login(email string) (*entities.UserModels, error)
+	GetUsersByEmail(email string) (*entities.AdminModels, error)
 }
 
 type AuthServiceInterface interface {
-	Login(email, password string) (*entities.UserModels, string, error)
+	Login(email, password string) (*entities.AdminModels, string, error)
 }
 
 type AuthHandlerInterface interface {

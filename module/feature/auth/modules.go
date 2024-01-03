@@ -31,6 +31,6 @@ func InitializeAuth(db *gorm.DB) {
 }
 
 func SetupRoutesAuth(app *fiber.App) {
-	app.Post("/users/login", userHandler.Login)
-
+	api := app.Group("/api/v1/auth")
+	api.Post("/admin/login", userHandler.Login)
 }

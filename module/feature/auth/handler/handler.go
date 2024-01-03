@@ -18,13 +18,13 @@ func NewAuthHandler(service domain.AuthServiceInterface) domain.AuthHandlerInter
 }
 
 func (h *AuthHandler) Login(c *fiber.Ctx) error {
-	req := new(validator.LoginRequest)
+	req := new(domain.LoginRequest)
 	if err := c.BodyParser(req); err != nil {
 		return response.ErrorResponse(c, fiber.StatusBadRequest, "err")
 	}
 
-	if err := validator.ValidateLoginRequest(req); err != nil {
-		return response.ErrorResponse(c, fiber.StatusBadRequest, "Validation failed: "+err.Error())
+	if err := validator.ValidateStruct(req); err != nil {
+		return response.ErrorResponse(c, fiber.StatusBadRequest, err.Error())
 	}
 
 	user, token, err := h.service.Login(req.Email, req.Password)
